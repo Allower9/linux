@@ -27,6 +27,7 @@
 3.  Shorewall ( Межсетевой экран )
    
 ![5327764699007284056 (1)](https://github.com/user-attachments/assets/c02aa9fa-f9a1-4c1f-a50b-54448f0ed86c)
+![5327764699007284055 (1)](https://github.com/user-attachments/assets/5d68d005-ccd8-44fd-bae3-90c095bb5e2d)
 
 
 altsrv1 - такая же настройка , единственное только интерфейсы местами изменены
