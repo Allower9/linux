@@ -46,10 +46,10 @@
 
 4 Прокси-сервер SQUID
     стенд уже базовый 
-   4.1 настроил сетевые интерфейсы ( ipv4address , ipv4route , resolv.conf )
-   4.2 на altsrv1 сделал $ sysctl net.ipv4.ip_forward=1       ---> net.ipv4.ip_forward = 1 + iptzbles -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
-   4.3 скачал squid 
-   4.4 настроил /etc/squid/squid.conf ![image](https://github.com/user-attachments/assets/7c155d12-eab1-44f5-9b7b-f485c07370d1)
+   - 4.1 настроил сетевые интерфейсы ( ipv4address , ipv4route , resolv.conf )
+   - 4.2 на altsrv1 сделал $ sysctl net.ipv4.ip_forward=1       ---> net.ipv4.ip_forward = 1 + iptzbles -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+   - 4.3 скачал squid 
+   - 4.4 настроил /etc/squid/squid.conf ![image](https://github.com/user-attachments/assets/7c155d12-eab1-44f5-9b7b-f485c07370d1)
     ,а именно закоментировал (http_access allow localnet) и добавил свои ip адресса локальной сети net 
 
  
