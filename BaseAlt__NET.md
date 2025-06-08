@@ -55,6 +55,8 @@
     ,а именно закоментировал (http_access allow localnet) и добавил свои ip адресса локальной сети net 
   - ПРОВЕРКА  --->  открыть через altwks  в браузере http://10.0.0.2  , также на altwks2 ---> должно открыться только на altwks 
      ---------------------------------
+    
+     ---------------------------------
      КЭШИРОВАНИЕ
       - в /etc/squid/squid.con ---> добавим настроку кэша ![image](https://github.com/user-attachments/assets/4252ef3f-d9a9-46ca-92d8-15b22b131953)
       -  в /etc/squid/squid.conf  ---> dns_nameservers 8.8.8.8 1.1.1.1
@@ -71,6 +73,20 @@
  - итог видим при обновление TCP_MEM_HIT ( при повторном использовании  apt-get update -d или на разных узлах )  ![image](https://github.com/user-attachments/assets/a70749ec-d2d0-469a-8284-9cbc1041b7aa)
 
 ---------------------------------
-АВТОРИЗАЦИЯ
 
+---------------------------------
+АВТОРИЗАЦИЯ в squid через BASIC-аутентификации
+ - Создание базы пользователей
+
+___________________________________________________________________________
+$ touch /etc/squid/passwd
+$ ps ax -o user,group,cmd | grep squid
+$ chown squid:squid /etc/squid/passwd
+Добавление пользователя
+$ apt-get install apache2-htpasswd
+
+___________________________________________________________________________
+$ htpasswd /etc/squid/passwd user
+ - 
+ - 
 
