@@ -163,3 +163,7 @@ ___________________________________________________________________________
 ___________________________________________________________________________
 acl blockdomains dstdomain "/etc/squid/blocdomains.lst"
 http_access deny blockdomains
+
+
+squid в прозрачном режиме 
+`tail -f /var/log/squid/access.log`
