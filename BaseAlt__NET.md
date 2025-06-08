@@ -103,3 +103,63 @@ auth_param basic credentialsttl 2 hours
 ```
 - получаем ---> (чек фото ниже)
 ![image](https://github.com/user-attachments/assets/a3c04d93-9fae-4b93-b357-aa5f02daf44c)
+
+
+---------------
+---------------
+
+- Настройка Digest-аутентификации в SQUID
+- Создание базы пользователей
+
+___________________________________________________________________________
+$ touch /etc/squid/dpasswd
+$ ps ax -o user,group,cmd | grep squid
+$ chown squid:squid /etc/squid/dpasswd
+Добавление пользователя
+$ apt-get install apache2-common
+
+___________________________________________________________________________
+$ htdigest /etc/squid/dpasswd 'DigestAuth' user2
+ACL для Digest-аутентификации
+
+___________________________________________________________________________
+acl auth_users proxy_auth REQUIRED
+http_access allow auth_users
+Параметры Digest-аутентификации
+
+___________________________________________________________________________
+auth_param digest program /usr/lib/squid/digest_file_auth -c /etc/squid/dpasswd
+auth_param digest children 20 startup=0 idle=1
+auth_param digest realm DigestAuth
+auth_param digest nonce_garbage_interval 5 minutes
+auth_param digest nonce_max_duration 30 minutes
+auth_param digest nonce_max_count 50
+---------------
+---------------
+
+Блокировки HTTP-ресурсов в SQUID
+Блокировки сайтов по регулярным выражениям
+
+___________________________________________________________________________
+$ touch /etc/squid/blockwords.lst
+
+___________________________________________________________________________
+facebook
+youtube
+microsoft
+
+___________________________________________________________________________
+acl blockkeywordlist url_regex "/etc/squid/blockwords.lst"
+http_access deny blockkeywordlist
+Блокировки сайтов по доменным именам
+
+___________________________________________________________________________
+$ touch /etc/squid/blockdomains.lst
+
+___________________________________________________________________________
+.vk.com
+.ok.ru
+
+___________________________________________________________________________
+acl blockdomains dstdomain "/etc/squid/blocdomains.lst"
+http_access deny blockdomains
