@@ -53,7 +53,7 @@
    - 4.3 скачал squid 
    - 4.4 настроил /etc/squid/squid.conf ![image](https://github.com/user-attachments/assets/7c155d12-eab1-44f5-9b7b-f485c07370d1)
     ,а именно закоментировал (http_access allow localnet) и добавил свои ip адресса локальной сети net 
-  - ПРОВЕРКА  --->  открыть через altwks ссылку  
+  - ПРОВЕРКА  --->  открыть через altwks  в браузере http://10.0.0.2  , также на altwks2 ---> должно открыться только на altwks 
      ---------------------------------
      КЭШИРОВАНИЕ
       - в /etc/squid/squid.con ---> добавим настроку кэша ![image](https://github.com/user-attachments/assets/4252ef3f-d9a9-46ca-92d8-15b22b131953)
