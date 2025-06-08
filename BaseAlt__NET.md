@@ -88,6 +88,18 @@ $ apt-get install apache2-htpasswd
 ___________________________________________________________________________
 $ htpasswd /etc/squid/passwd user
 ```
- - 
- - 
-
+- Добавляем в /etc/squid/squid.conf
+```
+acl auth_users proxy_auth REQUIRED
+http_access allow auth_users
+Параметры BASIC-аутентификации
+```
+___________________________________________________________________________
+```
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic children 5
+auth_param basic realm Squid Basic Authentication
+auth_param basic credentialsttl 2 hours
+```
+- получаем ---> (чек фото ниже)
+![image](https://github.com/user-attachments/assets/a3c04d93-9fae-4b93-b357-aa5f02daf44c)
