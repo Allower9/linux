@@ -19,7 +19,9 @@
 
 
 
-1. Настройка FastCGI-приложений с nginx ( apache2 ) 
+1. Настройка FastCGI-приложений с nginx ( apache2 )
+![5316797684700542208 (1)](https://github.com/user-attachments/assets/9491208d-944e-4d56-8682-304b58f1aecf)
+
 
 2.  Настройка пакетной фильтрации средствами iptables ( nftables )
   ![2025-05-30 23 51 31 (1)](https://github.com/user-attachments/assets/ee11b8e7-a922-4827-9e55-a3c183c408a9)
