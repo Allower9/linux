@@ -5,25 +5,25 @@
 # изначально настройка на altsrv1 ( главный серв.)
 
 1. Настройки параметров сети
-` cd /etc/net/ifaces
- cp -r enp0s3 enp0s8
- sed -i '/BOOTPROTO/s/dhcp/static/' enp0s8/options
- sed -i '/SYSTEMD_BOOTPROTO/s/dhcp4/static4/' enp0s8/options
- echo "192.168.100.1/24" > enp0s8/ipv4address
- ifdown enp0s8; ifup enp0s8
- echo "/sbin/iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -j MASQUERADE" > enp0s8/ifup-post
- chmod +x enp0s8/ifup-post
- ifdown enp0s3; ifup enp0s3
- sed -i '/net\.ipv4\.ip_forward/s/0/1/' /etc/net/sysctl.conf
- systemctl restart network`
+- cd /etc/net/ifaces
+- cp -r enp0s3 enp0s8
+- sed -i '/BOOTPROTO/s/dhcp/static/' enp0s8/options
+- sed -i '/SYSTEMD_BOOTPROTO/s/dhcp4/static4/' enp0s8/options
+- echo "192.168.100.1/24" > enp0s8/ipv4address
+- ifdown enp0s8; ifup enp0s8
+- echo "/sbin/iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -j MASQUERADE" > enp0s8/ifup-post
+- chmod +x enp0s8/ifup-post
+- ifdown enp0s3; ifup enp0s3
+- sed -i '/net\.ipv4\.ip_forward/s/0/1/' /etc/net/sysctl.conf
+- systemctl restart network
 2. Проверка применения настроек
-  ip -br a
-# ip r
+ - ip -br a
+ - ip r
 . . .
-# iptables -t nat -L
+iptables -t nat -L
 . . .
-# sysctl net.ipv4.ip_forward
-net.ipv4.ip_forward=1
+sysctl net.ipv4.ip_forward
+ - net.ipv4.ip_forward=1
 
 Параметры стека протоколов интерфейса enp0s3
 ◦ IP/MASK: 10.0.2.15/24
@@ -32,10 +32,10 @@ net.ipv4.ip_forward=1
 • Параметры маршрутизации
 ◦ Def. GW: 10.0.2.2
 3. Проверка работы внешнего подключения
-$ ping ya.ru
+ - ping ya.ru
 . . .
 4. Установка имени узла
-# hostnamectl set-hostname altsrv1 
+ - hostnamectl set-hostname altsrv1 
 
 # настройка altsrv2  ( для второстеппенных серверов  без графики)
 Настройки ОС altsrv2
