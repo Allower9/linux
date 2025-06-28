@@ -18,17 +18,17 @@
 
 
 настройка dhcp
-**1) меняем настройки интерфейса  ( в basealt /etc/net/ifaces/enp0s?/options ,а также удалим файлы ipv4address,ipv4route,resolv.conf
+- 1) меняем настройки интерфейса  ( в basealt /etc/net/ifaces/enp0s?/options ,а также удалим файлы ipv4address,ipv4route,resolv.conf
 ![telegram-cloud-photo-size-2-5404715252932803334-x](https://github.com/user-attachments/assets/e609e58d-5451-41a8-81c4-49c20f5f9675)
-**2) настроим /etc/dhcp/dhcpd.conf
+- 2) настроим /etc/dhcp/dhcpd.conf
 ![telegram-cloud-photo-size-2-5404719028209054781-y](https://github.com/user-attachments/assets/3ed06403-6660-488e-b2eb-451f4979f735)
-3) теперь сделаем статический ip адрес через dhcp. Из файла см фото ниже там есть путь --> берём мак адреса
+- 3) теперь сделаем статический ip адрес через dhcp. Из файла см фото ниже там есть путь --> берём мак адреса
 ![telegram-cloud-photo-size-2-5404715252932803454-y](https://github.com/user-attachments/assets/7666228e-9144-4754-9d9c-af13722bda5c)
-4) и прописываем вот так
+- 4) и прописываем вот так
 ![telegram-cloud-photo-size-2-5404715252932803465-y](https://github.com/user-attachments/assets/0947f236-92de-4b75-9312-16f850d1b240)
-5) после restart dhcpd на сервере и на узле ifdown и ifup ( опустим и поднимем интерфейс )
+- 5) после restart dhcpd на сервере и на узле ifdown и ifup ( опустим и поднимем интерфейс )
 ![telegram-cloud-photo-size-2-5404715252932803688-y](https://github.com/user-attachments/assets/feed475a-96bb-4708-998e-8229e5c9dab0)
-6) итог dhcp настроен, 1 узел настроен на статику через dhcp другой динамически через dhcp 
+- 6) итог dhcp настроен, 1 узел настроен на статику через dhcp другой динамически через dhcp 
 
 
 
