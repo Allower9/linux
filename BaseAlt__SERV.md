@@ -68,7 +68,16 @@
 5) ![telegram-cloud-photo-size-2-5404715252932803907-y](https://github.com/user-attachments/assets/9944753b-a937-42af-a723-de417cb4efdd)
  ### здесь уже мы запускаем через узел и также видим что dns работает 
 6) в dhcp можно поменять параметр "resolv.conf" -- чтобы не писать наш сервер (192.168.100.1)
-   ![5348112540363779630 (1) (3)](https://github.com/user-attachments/assets/93085382-f31f-4380-b37d-cb9f872b24d5)
+7) также настроим зону ... см фото ниже
+<img width="769" alt="Снимок экрана 2025-03-03 в 20 49 51 (3)" src="https://github.com/user-attachments/assets/744de130-9e71-4b02-9751-0cdb7d32e0d3" />
+<img width="960" alt="Снимок экрана 2025-03-03 в 20 49 42 (1) (3)" src="https://github.com/user-attachments/assets/b5c616f3-ea5d-4da6-8d9e-079a71cfecde" />
+<img width="959" alt="Снимок экрана 2025-03-03 в 20 49 07 (3)" src="https://github.com/user-attachments/assets/e45145f1-5e0b-4cd7-83d1-df2cc90acf71" />
+![5348187745241134192 (1) (3)](https://github.com/user-attachments/assets/f9240986-4334-4a45-9ce3-a990f146bd31)
+![5348112540363779630 (1) (3)](https://github.com/user-attachments/assets/e0daef41-3b2d-494b-b569-c1e2068ed9d0)
+
+
+
+9) Итог получили  DNS ( кэширующий  + разрешает локальные имена )
 
 
 
