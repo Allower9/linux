@@ -1,10 +1,138 @@
  Сетевые службы и администрирование
 ## Стенд 
-изначально настройка на altwks 
+![image](https://github.com/user-attachments/assets/e214f24b-d49e-4364-9427-3b12b45615a7)
 
-настройка на altsrv1
+# изначально настройка на altsrv1 ( главный серв.)
 
-настройка на altsrv2
+1. Настройки параметров сети
+` cd /etc/net/ifaces
+ cp -r enp0s3 enp0s8
+ sed -i '/BOOTPROTO/s/dhcp/static/' enp0s8/options
+ sed -i '/SYSTEMD_BOOTPROTO/s/dhcp4/static4/' enp0s8/options
+ echo "192.168.100.1/24" > enp0s8/ipv4address
+ ifdown enp0s8; ifup enp0s8
+ echo "/sbin/iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -j MASQUERADE" > enp0s8/ifup-post
+ chmod +x enp0s8/ifup-post
+ ifdown enp0s3; ifup enp0s3
+ sed -i '/net\.ipv4\.ip_forward/s/0/1/' /etc/net/sysctl.conf
+ systemctl restart network`
+2. Проверка применения настроек
+  ip -br a
+# ip r
+. . .
+# iptables -t nat -L
+. . .
+# sysctl net.ipv4.ip_forward
+net.ipv4.ip_forward=1
+
+Параметры стека протоколов интерфейса enp0s3
+◦ IP/MASK: 10.0.2.15/24
+• Параметры стека протоколов интерфейса enp0s8
+◦ IP/MASK: 192.168.100.1/24
+• Параметры маршрутизации
+◦ Def. GW: 10.0.2.2
+3. Проверка работы внешнего подключения
+$ ping ya.ru
+. . .
+4. Установка имени узла
+# hostnamectl set-hostname altsrv1 
+
+# настройка altsrv2  ( для второстеппенных серверов  без графики)
+Настройки ОС altsrv2
+1. Настройки параметров сетевого интерфейса
+# cd /etc/net/ifaces
+# sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
+# echo "192.168.100.2/24" > enp0s3/ipv4address
+# echo "default via 192.168.100.1" > enp0s3/ipv4route
+# echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
+# ifdown enp0s3; ifup enp0s3
+2. Проверка применения настроек
+# ip -br a
+. . .
+# ip r
+. . .
+# cat /etc/resolv.conf
+. . .
+• Параметры стека протоколов интерфейса enp0s3
+◦ IP/MASK: 192.168.100.2/24
+• Параметры маршрутизации
+◦ Def. GW: 192.168.100.1
+• Параметры разрешения имен
+◦ DNS SRV: 8.8.8.8
+3. Проверка работы внешнего подключения
+$ ping ya.ru
+4. Установка имени узла
+# hostnamectl set-hostname altsrv2
+#### настройка на altsrv2
+
+# Настройки ОС altwks1
+1. Настройки параметров сетевого интерфейса
+# cd /etc/net/ifaces
+# sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
+# echo "192.168.100.201/24" > enp0s3/ipv4address
+# echo "default via 192.168.100.1" > enp0s3/ipv4route
+# echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
+# systemctl restart NetworkManager
+2. Проверка применения настроек
+# ip -br a
+. . .
+# ip r
+. . .
+# cat /etc/resolv.conf
+. . .
+• Параметры стека протоколов интерфейса enp0s3
+◦ IP/MASK: 192.168.100.201/24
+◦ Def. GW: 192.168.100.1
+• Параметры разрешения имен
+◦ DNS SRV: 8.8.8.8
+3. Проверка работы внешнего подключения
+$ ping ya.ru
+. . .
+4. Разрешение имен локальных узлов
+# cat > /etc/hosts << EOF
+192.168.100.201 altwks1 altwks1.courses.alt
+192.168.100.1 altsrv1 altsrv1.courses.alt
+192.168.100.2 altsrv2 altsrv2.courses.alt
+EOF
+5. Проверка доступности внутренних узлов по имени
+$ ping altsrv1
+. . .
+$ ping altsrv2
+. . .
+6. Генерация и обмен пользовательскими ключами SSH
+• Выполняется из под УЗ sysadmin
+$ ssh-keygen
+$ ssh-copy-id sysadmin@altsrv1
+. . .
+$ ssh-copy-id sysadmin@altsrv2
+. . .
+7. Обеспечение SSH-доступа под суперпользователем на узлы стенда
+• Производится путем подключения к обоим узлам и копирования .ssh/authorized_keys в
+каталог суперпользователя
+$ ssh sysadmin@altsrv1
+[sysadmin@altsrv1 ~]$ su -
+Password:
+[root@altsrv1 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
+[root@altsrv1 ~]# exit
+[sysadmin@altsrv1 ~]$ exit
+$
+$ ssh sysadmin@altsrv2
+[sysadmin@altsrv2 ~]$ su -
+Password:
+[root@altsrv2 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
+[root@altsrv2 ~]# exit
+[sysadmin@altsrv2 ~]$ exit
+$
+8. Проверка SSH-доступа
+• Должен производиться безпаролный доступ под УЗ суперпользователя
+$ ssh root@altsrv1
+[root@altsrv1 ~]# exit
+$ ssh root@altsrv2
+[root@altsrv2 ~]# exit
+$
+9. Установка имени узла
+# hostnamectl set-hostname altwks1
+• Выполните перезагрузку узла
 ------
 
 
@@ -17,7 +145,7 @@
 🔹 **Лабораторная работа №1**: Настройка DHCP сервера в ОС Альт  
 
 
-## настройка dhcp
+## настройка dhcp ( небольшие отличия от стенда, я поменял altsrv1 с altwks местами )
  ###( до начала настройки установить на сервер ``` apt-get install dhcp-server ```)
  ### 1) меняем настройки интерфейса  ( в basealt /etc/net/ifaces/enp0s?/options ,а также удалим файлы ipv4address,ipv4route,resolv.conf
  
