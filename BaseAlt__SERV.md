@@ -40,18 +40,18 @@ sysctl net.ipv4.ip_forward
 # настройка altsrv2  ( для второстеппенных серверов  без графики)
 Настройки ОС altsrv2
 1. Настройки параметров сетевого интерфейса
-# cd /etc/net/ifaces
-# sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
-# echo "192.168.100.2/24" > enp0s3/ipv4address
-# echo "default via 192.168.100.1" > enp0s3/ipv4route
-# echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
-# ifdown enp0s3; ifup enp0s3
+- cd /etc/net/ifaces
+- sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
+- echo "192.168.100.2/24" > enp0s3/ipv4address
+- echo "default via 192.168.100.1" > enp0s3/ipv4route
+- echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
+- ifdown enp0s3; ifup enp0s3
 2. Проверка применения настроек
-# ip -br a
+- ip -br a
 . . .
-# ip r
+- ip r
 . . .
-# cat /etc/resolv.conf
+- cat /etc/resolv.conf
 . . .
 • Параметры стека протоколов интерфейса enp0s3
 ◦ IP/MASK: 192.168.100.2/24
@@ -60,25 +60,25 @@ sysctl net.ipv4.ip_forward
 • Параметры разрешения имен
 ◦ DNS SRV: 8.8.8.8
 3. Проверка работы внешнего подключения
-$ ping ya.ru
+ - ping ya.ru
 4. Установка имени узла
-# hostnamectl set-hostname altsrv2
-#### настройка на altsrv2
+ - hostnamectl set-hostname altsrv2
+
 
 # Настройки ОС altwks1
 1. Настройки параметров сетевого интерфейса
-# cd /etc/net/ifaces
-# sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
-# echo "192.168.100.201/24" > enp0s3/ipv4address
-# echo "default via 192.168.100.1" > enp0s3/ipv4route
-# echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
-# systemctl restart NetworkManager
+- cd /etc/net/ifaces
+- sed -i '/BOOTPROTO/s/dhcp/static/' enp0s3/options
+- echo "192.168.100.201/24" > enp0s3/ipv4address
+- echo "default via 192.168.100.1" > enp0s3/ipv4route
+- echo "nameserver 8.8.8.8" > enp0s3/resolv.conf
+- systemctl restart NetworkManager
 2. Проверка применения настроек
-# ip -br a
+- ip -br a
 . . .
-# ip r
+- ip r
 . . .
-# cat /etc/resolv.conf
+- cat /etc/resolv.conf
 . . .
 • Параметры стека протоколов интерфейса enp0s3
 ◦ IP/MASK: 192.168.100.201/24
@@ -86,52 +86,52 @@ $ ping ya.ru
 • Параметры разрешения имен
 ◦ DNS SRV: 8.8.8.8
 3. Проверка работы внешнего подключения
-$ ping ya.ru
+  - ping ya.ru
 . . .
 4. Разрешение имен локальных узлов
-# cat > /etc/hosts << EOF
+ - cat > /etc/hosts << EOF
 192.168.100.201 altwks1 altwks1.courses.alt
 192.168.100.1 altsrv1 altsrv1.courses.alt
 192.168.100.2 altsrv2 altsrv2.courses.alt
 EOF
 5. Проверка доступности внутренних узлов по имени
-$ ping altsrv1
+  - ping altsrv1
 . . .
-$ ping altsrv2
+  - ping altsrv2
 . . .
 6. Генерация и обмен пользовательскими ключами SSH
 • Выполняется из под УЗ sysadmin
-$ ssh-keygen
-$ ssh-copy-id sysadmin@altsrv1
+ - ssh-keygen
+ - ssh-copy-id sysadmin@altsrv1
 . . .
-$ ssh-copy-id sysadmin@altsrv2
+ - ssh-copy-id sysadmin@altsrv2
 . . .
 7. Обеспечение SSH-доступа под суперпользователем на узлы стенда
 • Производится путем подключения к обоим узлам и копирования .ssh/authorized_keys в
 каталог суперпользователя
-$ ssh sysadmin@altsrv1
-[sysadmin@altsrv1 ~]$ su -
-Password:
-[root@altsrv1 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
-[root@altsrv1 ~]# exit
-[sysadmin@altsrv1 ~]$ exit
-$
-$ ssh sysadmin@altsrv2
-[sysadmin@altsrv2 ~]$ su -
-Password:
-[root@altsrv2 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
-[root@altsrv2 ~]# exit
-[sysadmin@altsrv2 ~]$ exit
-$
+ - ssh sysadmin@altsrv1
+- [sysadmin@altsrv1 ~]$ su -
+- Password:
+- [root@altsrv1 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
+- [root@altsrv1 ~]# exit
+- [sysadmin@altsrv1 ~]$ exit
+
+- ssh sysadmin@altsrv2
+- [sysadmin@altsrv2 ~]$ su -
+- Password:
+- [root@altsrv2 ~]# cat /home/sysadmin/.ssh/authorized_keys >> .ssh/authorized_keys
+- [root@altsrv2 ~]# exit
+- [sysadmin@altsrv2 ~]$ exit
+
 8. Проверка SSH-доступа
 • Должен производиться безпаролный доступ под УЗ суперпользователя
-$ ssh root@altsrv1
-[root@altsrv1 ~]# exit
-$ ssh root@altsrv2
-[root@altsrv2 ~]# exit
-$
+- ssh root@altsrv1
+- [root@altsrv1 ~]# exit
+- ssh root@altsrv2
+- [root@altsrv2 ~]# exit
+
 9. Установка имени узла
-# hostnamectl set-hostname altwks1
+- hostnamectl set-hostname altwks1
 • Выполните перезагрузку узла
 ------
 
